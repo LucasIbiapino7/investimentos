@@ -20,18 +20,16 @@ public class UserDTO {
 
     @Email(message = "email no formato inválido!")
     private String email;
-    private String password;
 
     public UserDTO() {
     }
 
-    public UserDTO(Long id, String firstName, String lastName, String  birthDate, String email, String password) {
+    public UserDTO(Long id, String firstName, String lastName, String  birthDate, String email) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
         this.email = email;
-        this.password = password;
     }
 
     public Long getId() {
@@ -52,9 +50,5 @@ public class UserDTO {
 
     public String getEmail() {
         return email;
-    }
-
-    public String getPassword() {
-        return password;
     }
 }

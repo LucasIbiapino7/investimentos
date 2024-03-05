@@ -1,6 +1,7 @@
 package com.devsuperior.investimentos.services;
 
 import com.devsuperior.investimentos.dto.UserDTO;
+import com.devsuperior.investimentos.dto.UserInsertDTO;
 import com.devsuperior.investimentos.entities.Role;
 import com.devsuperior.investimentos.entities.User;
 import com.devsuperior.investimentos.projection.UserDetailsProjection;
@@ -48,7 +49,7 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void insert(UserDTO dto) {
+    public void insert(UserInsertDTO dto) {
         User user = new User();
         copyDtoToUser(dto, user);
         Role role = roleRepository.findByAuthority("ROLE_CLIENT");
