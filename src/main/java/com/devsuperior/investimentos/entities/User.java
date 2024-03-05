@@ -25,6 +25,9 @@ public class User implements UserDetails {
     private String email;
     private String password;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Account account;
+
     @ManyToMany
     @JoinTable(name = "tb_user_role",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -35,13 +38,14 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(Long id, String firstName, String lastName, LocalDate birthDate, String email, String password) {
+    public User(Long id, String firstName, String lastName, LocalDate birthDate, String email, String password, Account account) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
         this.email = email;
         this.password = password;
+        this.account = account;
     }
 
     public Long getId() {
@@ -82,6 +86,14 @@ public class User implements UserDetails {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     @Override
