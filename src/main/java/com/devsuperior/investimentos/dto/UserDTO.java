@@ -1,11 +1,13 @@
 package com.devsuperior.investimentos.dto;
 
+import com.devsuperior.investimentos.entities.User;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class UserDTO {
 
@@ -32,6 +34,14 @@ public class UserDTO {
         this.email = email;
     }
 
+    public UserDTO(User entity) {
+        id = entity.getId();
+        firstName = entity.getFirstName();
+        lastName = entity.getLastName();
+        birthDate = formatDate(entity.getBirthDate());
+        email = entity.getEmail();
+    }
+
     public Long getId() {
         return id;
     }
@@ -50,5 +60,10 @@ public class UserDTO {
 
     public String getEmail() {
         return email;
+    }
+
+    private String formatDate(LocalDate date){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return date.format(formatter);
     }
 }

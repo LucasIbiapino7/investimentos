@@ -6,6 +6,8 @@ import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import com.devsuperior.investimentos.controllers.handlers.FiledMessage;
 import com.devsuperior.investimentos.dto.UserDTO;
 import com.devsuperior.investimentos.dto.UserInsertDTO;
@@ -30,8 +32,8 @@ public class UserInsertValidator implements ConstraintValidator<UserInsertValid,
 
         List<FiledMessage> list = new ArrayList<>();
 
-        User user = repository.findByEmail(dto.getEmail());
-        if (user != null){
+        Optional<User> user = repository.findByEmail(dto.getEmail());
+        if (user.isPresent()){
             list.add(new FiledMessage("email", "email já existe"));
         }
 

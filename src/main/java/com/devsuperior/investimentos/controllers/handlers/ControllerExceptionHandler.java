@@ -1,6 +1,7 @@
 package com.devsuperior.investimentos.controllers.handlers;
 
 import com.devsuperior.investimentos.services.exceptions.DateException;
+import com.devsuperior.investimentos.services.exceptions.PasswordException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,14 @@ import java.time.Instant;
 public class ControllerExceptionHandler {
 
     @ExceptionHandler(DateException.class)
-    public ResponseEntity<CustomErrorDTO> resourceNotFound(DateException e, HttpServletRequest request) {
+    public ResponseEntity<CustomErrorDTO> Date(DateException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        CustomErrorDTO err = new CustomErrorDTO(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(PasswordException.class)
+    public ResponseEntity<CustomErrorDTO> Password(PasswordException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         CustomErrorDTO err = new CustomErrorDTO(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(err);
