@@ -1,13 +1,24 @@
 package com.devsuperior.investimentos.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDate;
 
 public class UserDTO {
 
     private Long id;
+
+    @NotBlank(message = "Campo Requerido!")
     private String firstName;
+
+    @NotBlank(message = "Campo Requerido!")
     private String lastName;
-    private String  birthDate;
+    private String birthDate;
+
+    @Email(message = "email no formato inválido!")
     private String email;
     private String password;
 

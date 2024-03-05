@@ -2,6 +2,7 @@ package com.devsuperior.investimentos.controllers;
 
 import com.devsuperior.investimentos.dto.UserDTO;
 import com.devsuperior.investimentos.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +18,7 @@ public class UserController {
     private UserService service;
 
     @PostMapping
-    public ResponseEntity<Void> insert(@RequestBody UserDTO dto){
+    public ResponseEntity<Void> insert(@RequestBody @Valid UserDTO dto){//MUDAR PRA 201
         service.insert(dto);
         return ResponseEntity.noContent().build();
     }
