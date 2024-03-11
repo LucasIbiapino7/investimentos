@@ -102,6 +102,15 @@ public class UserService implements UserDetailsService {
         return new UserDTO(user);
     }
 
+    protected Account getAccount(){
+        User user = authenticated();
+        Account account =  user.getAccount();
+        if (account == null){
+            throw new ResourceNotFoundException("Nenhuma Conta vinculada a esse usuário!");
+        }
+        return user.getAccount();
+    }
+
     protected Account authUser(String password){
         User user = authenticated();
         Account account =  user.getAccount();
