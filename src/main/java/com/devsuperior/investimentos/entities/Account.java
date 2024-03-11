@@ -3,6 +3,8 @@ package com.devsuperior.investimentos.entities;
 import com.devsuperior.investimentos.services.exceptions.AccountException;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -22,6 +24,9 @@ public class Account {
     @OneToOne
     @MapsId
     private User user;
+
+    @OneToMany(mappedBy = "account")
+    private List<Portfolio> portfolios = new ArrayList<>();
 
     public Account() {
     }
@@ -77,6 +82,10 @@ public class Account {
 
     public User getUser() {
         return user;
+    }
+
+    public List<Portfolio> getPortfolios() {
+        return portfolios;
     }
 
     public void setUser(User user) {
