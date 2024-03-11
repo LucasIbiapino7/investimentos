@@ -3,6 +3,7 @@ package com.devsuperior.investimentos.services;
 import com.devsuperior.investimentos.dto.UserDTO;
 import com.devsuperior.investimentos.dto.UserDeleteDTO;
 import com.devsuperior.investimentos.dto.UserInsertDTO;
+import com.devsuperior.investimentos.entities.Account;
 import com.devsuperior.investimentos.entities.Role;
 import com.devsuperior.investimentos.entities.User;
 import com.devsuperior.investimentos.projection.UserDetailsProjection;
@@ -10,6 +11,7 @@ import com.devsuperior.investimentos.repositories.RoleRepository;
 import com.devsuperior.investimentos.repositories.UserRepository;
 import com.devsuperior.investimentos.services.exceptions.DateException;
 import com.devsuperior.investimentos.services.exceptions.PasswordException;
+import com.devsuperior.investimentos.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -75,7 +77,7 @@ public class UserService implements UserDetailsService {
     @Transactional
     public void delete(UserDeleteDTO dto) {
         User user = authenticated();
-        if (!passwordEncoder.matches(dto.getPassword(), user.getPassword())){
+        if (!authPassword(dto.getPassword(), user)){
             throw new PasswordException("Senha Incorreta");
         };
         repository.delete(user);
@@ -98,6 +100,22 @@ public class UserService implements UserDetailsService {
     public UserDTO getMe(){
         User user = authenticated();
         return new UserDTO(user);
+    }
+
+    protected Account authUser(String password){
+        User user = authenticated();
+        Account account =  user.getAccount();
+        if (account == null){
+            throw new ResourceNotFoundException("Nenhuma Conta vinculada a esse usuário!");
+        }
+        if (!authPassword(password, user)){
+            throw new PasswordException("Senha Incorreta!");
+        }
+        return user.getAccount();
+    }
+
+    protected boolean authPassword(String password, User user){
+        return passwordEncoder.matches(password, user.getPassword());
     }
 
     private void copyDtoToUser(UserDTO dto, User user) {

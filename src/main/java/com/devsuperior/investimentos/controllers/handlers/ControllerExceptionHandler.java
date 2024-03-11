@@ -1,7 +1,9 @@
 package com.devsuperior.investimentos.controllers.handlers;
 
+import com.devsuperior.investimentos.services.exceptions.AccountException;
 import com.devsuperior.investimentos.services.exceptions.DateException;
 import com.devsuperior.investimentos.services.exceptions.PasswordException;
+import com.devsuperior.investimentos.services.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,21 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(DateException.class)
     public ResponseEntity<CustomErrorDTO> Date(DateException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
+        CustomErrorDTO err = new CustomErrorDTO(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(AccountException.class)
+    public ResponseEntity<CustomErrorDTO> Account(AccountException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        CustomErrorDTO err = new CustomErrorDTO(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(err);
+    }
+
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<CustomErrorDTO> ResourceNotFound(ResourceNotFoundException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.NOT_FOUND;
         CustomErrorDTO err = new CustomErrorDTO(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(err);
     }

@@ -1,5 +1,6 @@
 package com.devsuperior.investimentos.entities;
 
+import com.devsuperior.investimentos.services.exceptions.AccountException;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -9,8 +10,11 @@ import java.util.Objects;
 public class Account {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+
+    @Column(columnDefinition = "TEXT")
     private String description;
     private Double balance;
     private Integer portfolioNumber;
@@ -77,6 +81,17 @@ public class Account {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public void deposit(Double amount){
+        balance += amount;
+    }
+
+    public void withdraw(Double amount){
+        if (amount > balance){
+            throw new AccountException("Valor de Saque superior ao Salddo");
+        }
+        balance -= amount;
     }
 
     @Override
