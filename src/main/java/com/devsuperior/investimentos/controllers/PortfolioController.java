@@ -23,7 +23,7 @@ public class PortfolioController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PortfolioDTO>> findAll(){
+    public ResponseEntity<List<PortfolioDTO>> findAll() {
         List<PortfolioDTO> result = service.findAll();
         return ResponseEntity.ok(result);
     }
