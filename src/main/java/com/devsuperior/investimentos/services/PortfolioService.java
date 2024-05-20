@@ -1,6 +1,8 @@
 package com.devsuperior.investimentos.services;
 
+import com.devsuperior.investimentos.client.dto.StockBrapiFindByIdDTO;
 import com.devsuperior.investimentos.dto.portfolio.PortfolioDTO;
+import com.devsuperior.investimentos.dto.portfolio.StockComparisonDTO;
 import com.devsuperior.investimentos.dto.portfolio.StockPurchasedDTO;
 import com.devsuperior.investimentos.dto.stockPortfolio.StockPurchaseDTO;
 import com.devsuperior.investimentos.entities.*;
@@ -12,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class PortfolioService {
@@ -90,4 +94,42 @@ public class PortfolioService {
         return new StockPurchasedDTO(account.getBalance(), portfolio);
 
     }
+
+    @Transactional(readOnly = true)
+    public List<StockComparisonDTO> comparison(Long id) {
+        Portfolio portfolio = repository.getReferenceById(id);
+
+        //(lembrar de ver quantas consultas isso vai fazer)
+        Set<PortfolioStock> result = portfolio.getPortfolioStocks();// Recupera os stocks de um portfólio
+
+        return stockComparisonFactory(result);
+    }
+
+    private List<StockComparisonDTO> stockComparisonFactory(Set<PortfolioStock> result) {
+
+        List<StockComparisonDTO> response = new ArrayList<>();
+
+
+        for (PortfolioStock object : result){
+
+            StockComparisonDTO dto = new StockComparisonDTO();
+
+            StockBrapiFindByIdDTO stock = stockService.findById(object.getStock().getName());
+
+            dto.setSymbol(stock.getSymbol());
+            dto.setPricePurchased(object.getPrice());
+            dto.setPriceActual(stock.getRegularMarketPrice());
+            dto.variation();
+            dto.setQuantity(object.getQuantity());
+            dto.setTotalValue(object.getValue());
+            dto.calcValueSale();
+
+            response.add(dto);
+
+        }
+
+        return response;
+
+    }
+
 }

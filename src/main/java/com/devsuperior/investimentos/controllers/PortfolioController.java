@@ -1,6 +1,7 @@
 package com.devsuperior.investimentos.controllers;
 
 import com.devsuperior.investimentos.dto.portfolio.PortfolioDTO;
+import com.devsuperior.investimentos.dto.portfolio.StockComparisonDTO;
 import com.devsuperior.investimentos.dto.portfolio.StockPurchasedDTO;
 import com.devsuperior.investimentos.dto.stockPortfolio.StockPurchaseDTO;
 import com.devsuperior.investimentos.services.PortfolioService;
@@ -44,6 +45,12 @@ public class PortfolioController {
     public ResponseEntity<StockPurchasedDTO> purchasedStock(@PathVariable(name = "id") Long id, @RequestBody StockPurchaseDTO dto){
         StockPurchasedDTO response = service.purchasedStock(id, dto);
         return ResponseEntity.ok(response);//Retornar um DTO com todas as ações daquele portfolio
+    }
+
+    @GetMapping("/{id}/comparison")
+    public ResponseEntity<List<StockComparisonDTO>> comparison(@PathVariable(name = "id") Long id){
+        List<StockComparisonDTO> response = service.comparison(id);
+        return ResponseEntity.ok(response);
     }
 
 }

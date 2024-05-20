@@ -1,5 +1,6 @@
 package com.devsuperior.investimentos.services;
 
+import com.devsuperior.investimentos.client.dto.StockBrapiFindByIdDTO;
 import com.devsuperior.investimentos.entities.Stock;
 import com.devsuperior.investimentos.repositories.StockRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,9 @@ public class StockService {
 
     @Autowired
     private StockRepository repository;
+
+    @Autowired
+    private BrapiService brapiService;
 
     @Transactional(readOnly = true)
     public Boolean containsStock(String stocksId){
@@ -25,6 +29,10 @@ public class StockService {
         Stock stock = new Stock(stocksId, longName);
         stock = repository.save(stock);
         return stock;
+    }
+
+    public StockBrapiFindByIdDTO findById(String stockId){
+        return brapiService.findById(stockId);
     }
 
 }
