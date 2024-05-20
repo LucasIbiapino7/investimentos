@@ -72,6 +72,10 @@ public class Portfolio {
         return portfolioStocks;
     }
 
+    public Set<PortfolioStock> getPortfolioStocks() {
+        return portfolioStocks;
+    }
+
     public List<Stock> getStocksPortfolio(){
         return portfolioStocks.stream().map(x -> x.getStock()).toList();
     }

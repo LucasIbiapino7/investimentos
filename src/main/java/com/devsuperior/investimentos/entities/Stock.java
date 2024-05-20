@@ -20,6 +20,9 @@ public class Stock {
     @OneToMany(mappedBy = "id.stock")
     private Set<PortfolioStock> portfolioStocks = new HashSet<>();
 
+    public Stock() {
+    }
+
     public Stock(String name, String longName) {
         this.name = name;
         this.longName = longName;
