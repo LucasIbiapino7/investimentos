@@ -3,8 +3,13 @@ package com.devsuperior.investimentos.controllers;
 import com.devsuperior.investimentos.dto.portfolio.PortfolioDTO;
 import com.devsuperior.investimentos.dto.portfolio.StockComparisonDTO;
 import com.devsuperior.investimentos.dto.portfolio.StockPurchasedDTO;
+import com.devsuperior.investimentos.dto.stockPortfolio.StockPortfolioDTO;
+import com.devsuperior.investimentos.dto.stockPortfolio.StockPortfolioSaleDTO;
+import com.devsuperior.investimentos.dto.stockPortfolio.StockPortfolioSaleResponseDTO;
 import com.devsuperior.investimentos.dto.stockPortfolio.StockPurchaseDTO;
+import com.devsuperior.investimentos.entities.PortfolioStock;
 import com.devsuperior.investimentos.services.PortfolioService;
+import com.devsuperior.investimentos.services.PortfolioStockService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +24,9 @@ public class PortfolioController {
 
     @Autowired
     private PortfolioService service;
+
+    @Autowired
+    private PortfolioStockService portfolioStockService;
 
     @PreAuthorize("hasAnyRole('ROLE_CLIENT')")
     @PostMapping
@@ -50,6 +58,21 @@ public class PortfolioController {
     @GetMapping("/{id}/comparison")
     public ResponseEntity<List<StockComparisonDTO>> comparison(@PathVariable(name = "id") Long id){
         List<StockComparisonDTO> response = service.comparison(id);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{id}/{stockId}")
+    public ResponseEntity<StockPortfolioDTO> findByStockIdAndPortfolioId(@PathVariable(name = "id") Long id, @PathVariable(name = "stockId") String stockId){
+        StockPortfolioDTO response = portfolioStockService.searchByIds(stockId, id);
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/{id}/{stockId}/sale")
+    public ResponseEntity<StockPortfolioSaleResponseDTO> sale(@PathVariable(name = "id") Long id,
+                                                                  @PathVariable(name = "stockId") String stockId,
+                                                                  @Valid @RequestBody StockPortfolioSaleDTO dto)
+    {
+        StockPortfolioSaleResponseDTO response = portfolioStockService.sale(id, stockId, dto);
         return ResponseEntity.ok(response);
     }
 

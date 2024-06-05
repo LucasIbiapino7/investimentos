@@ -55,17 +55,17 @@ public class PortfolioService {
     }
 
     @Transactional(readOnly = true)
-    public PortfolioDTO findById(Long id) {
-        Portfolio entity = repository.getReferenceById(id);
-        if (!authService.AuthPortfolioIsSelf(entity)){
+    public PortfolioDTO  findById(Long id) {
+        Portfolio portfolio = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Portifolio não encontrado"));
+        if (!authService.AuthPortfolioIsSelf(portfolio)){
             throw new ResourceNotFoundException("só pra testar, acesso negado");
         }
-        return new PortfolioDTO(entity);
+        return new PortfolioDTO(portfolio);
     }
 
     @Transactional
     public StockPurchasedDTO purchasedStock(Long id, StockPurchaseDTO dto){
-        Portfolio portfolio = repository.getReferenceById(id);
+        Portfolio portfolio = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Portifolio não encontrado"));
         if (!authService.AuthPortfolioIsSelf(portfolio)){
             throw new ResourceNotFoundException("só pra testar, acesso negado");
         }
@@ -131,5 +131,6 @@ public class PortfolioService {
         return response;
 
     }
+
 
 }

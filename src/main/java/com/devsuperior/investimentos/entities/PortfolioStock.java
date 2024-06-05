@@ -70,4 +70,14 @@ public class PortfolioStock {
     public void setValue(Double value) {
         this.valuePurchased = value;
     }
+
+    @Override
+    public String toString() {
+        return "PortfolioStock{" +
+                "id=" + id +
+                ", quantity=" + quantity +
+                ", price=" + price +
+                ", valuePurchased=" + valuePurchased +
+                '}';
+    }
 }
