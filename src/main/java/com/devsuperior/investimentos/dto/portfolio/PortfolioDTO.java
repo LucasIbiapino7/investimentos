@@ -1,9 +1,16 @@
 package com.devsuperior.investimentos.dto.portfolio;
 
 import com.devsuperior.investimentos.dto.account.AccountDTO;
+import com.devsuperior.investimentos.dto.stockPortfolio.StockPortfolioDTO;
 import com.devsuperior.investimentos.entities.Portfolio;
+import com.devsuperior.investimentos.entities.PortfolioStock;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class PortfolioDTO {
 
@@ -14,6 +21,7 @@ public class PortfolioDTO {
     private String description;
     private Double totalValue;
     private Long accountId;
+    private List<StockPortfolioDTO> stockPortfolios = new ArrayList<>();
 
     public PortfolioDTO() {
     }
@@ -30,6 +38,9 @@ public class PortfolioDTO {
         description = entity.getDescription();
         totalValue = entity.getTotalValue();
         accountId = entity.getAccount().getId();
+        for (PortfolioStock obj : entity.getPortfolioStocks()){
+            this.stockPortfolios.add(new StockPortfolioDTO(obj));
+        }
     }
 
     public Long getId() {
@@ -42,6 +53,10 @@ public class PortfolioDTO {
 
     public String getDescription() {
         return description;
+    }
+
+    public List<StockPortfolioDTO> getStockPortfolios() {
+        return stockPortfolios;
     }
 
     public void setDescription(String description) {

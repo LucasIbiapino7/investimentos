@@ -49,24 +49,28 @@ public class PortfolioController {
         return ResponseEntity.ok(result);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_CLIENT')")
     @PostMapping("/{id}/purchased")
     public ResponseEntity<StockPurchasedDTO> purchasedStock(@PathVariable(name = "id") Long id, @RequestBody StockPurchaseDTO dto){
         StockPurchasedDTO response = service.purchasedStock(id, dto);
         return ResponseEntity.ok(response);//Retornar um DTO com todas as ações daquele portfolio
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_CLIENT')")
     @GetMapping("/{id}/comparison")
     public ResponseEntity<List<StockComparisonDTO>> comparison(@PathVariable(name = "id") Long id){
         List<StockComparisonDTO> response = service.comparison(id);
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_CLIENT')")
     @GetMapping("/{id}/{stockId}")
     public ResponseEntity<StockPortfolioDTO> findByStockIdAndPortfolioId(@PathVariable(name = "id") Long id, @PathVariable(name = "stockId") String stockId){
         StockPortfolioDTO response = portfolioStockService.searchByIds(stockId, id);
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_CLIENT')")
     @PutMapping("/{id}/{stockId}/sale")
     public ResponseEntity<StockPortfolioSaleResponseDTO> sale(@PathVariable(name = "id") Long id,
                                                                   @PathVariable(name = "stockId") String stockId,

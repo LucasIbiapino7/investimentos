@@ -55,10 +55,10 @@ public class PortfolioService {
     }
 
     @Transactional(readOnly = true)
-    public PortfolioDTO  findById(Long id) {
+    public PortfolioDTO findById(Long id) {
         Portfolio portfolio = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Portifolio não encontrado"));
         if (!authService.AuthPortfolioIsSelf(portfolio)){
-            throw new ResourceNotFoundException("só pra testar, acesso negado");
+            throw new ResourceNotFoundException("acesso negado");
         }
         return new PortfolioDTO(portfolio);
     }
