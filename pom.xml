@@ -83,6 +83,48 @@
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.1.0</version> <!--$NO-MVN-MAN-VER$ -->
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.10</version>
+				<configuration>
+					<excludes>
+						<exclude>com/devsuperior/investimentos/InvestimentosApplication.class</exclude>
+						<exclude>com/devsuperior/investimentos/config/**</exclude>
+						<exclude>com/devsuperior/investimentos/util/**</exclude>
+						<exclude>com/devsuperior/investimentos/entities/**</exclude>
+						<exclude>com/devsuperior/investimentos/dto/**</exclude>
+						<exclude>com/devsuperior/investimentos/controllers/**</exclude>
+						<exclude>com/devsuperior/investimentos/controllers/handlers/**</exclude>
+						<exclude>com/devsuperior/investimentos/services/exceptions/**</exclude>
+						<exclude>com/devsuperior/investimentos/services/validation/**</exclude>
+						<exclude>com/devsuperior/investimentos/repositories/**</exclude>
+						<exclude>com/devsuperior/investimentos/client/**</exclude>
+					</excludes>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>jacoco-report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>target/jacoco-report</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
