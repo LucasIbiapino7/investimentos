@@ -60,4 +60,8 @@ public class AccountDTO {
     public UserDTO getUserDTO() {
         return userDTO;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

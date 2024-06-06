@@ -13,8 +13,9 @@ public class WithdrawDTO {
     public WithdrawDTO() {
     }
 
-    public WithdrawDTO(Double amount) {
+    public WithdrawDTO(Double amount, String password) {
         this.amount = amount;
+        this.password = password;
     }
 
     public Double getAmount() {
