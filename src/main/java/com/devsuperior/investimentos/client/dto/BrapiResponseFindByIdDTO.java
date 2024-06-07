@@ -9,7 +9,7 @@ public class BrapiResponseFindByIdDTO {
     public BrapiResponseFindByIdDTO() {
     }
 
-    public BrapiResponseFindByIdDTO(List<StockBrapiFindByIdDTO> results, Boolean error, String message) {
+    public BrapiResponseFindByIdDTO(List<StockBrapiFindByIdDTO> results) {
         this.results = results;
     }
 

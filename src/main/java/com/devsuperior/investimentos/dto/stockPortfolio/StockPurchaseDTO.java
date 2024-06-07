@@ -10,7 +10,7 @@ public class StockPurchaseDTO {
     public StockPurchaseDTO() {
     }
 
-    public StockPurchaseDTO(String stockId, String symbol, String longName, Double regularMarketPlace, Integer quantity, Integer portfolioId) {
+    public StockPurchaseDTO(String stockId, String longName, Double regularMarketPlace, Integer quantity) {
         this.stockId = stockId;
         this.longName = longName;
         this.regularMarketPlace = regularMarketPlace;
