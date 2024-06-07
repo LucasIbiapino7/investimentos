@@ -5,6 +5,7 @@ import com.devsuperior.investimentos.dto.account.AccountDTO;
 import com.devsuperior.investimentos.dto.account.DepositDTO;
 import com.devsuperior.investimentos.dto.account.WithdrawDTO;
 import com.devsuperior.investimentos.entities.Account;
+import com.devsuperior.investimentos.entities.Portfolio;
 import com.devsuperior.investimentos.entities.Stock;
 import com.devsuperior.investimentos.entities.User;
 
@@ -24,7 +25,7 @@ public class Factory {
 
     public static User createUser(){
         User user = new User();
-        user.setId(1L);
+        user.setId(null);
         user.setFirstName("Lucas");
         user.setLastName("Duarte");
         user.setEmail("lucas@gmail.com");
@@ -35,7 +36,7 @@ public class Factory {
 
     public static User createUserWithAccount(){
         User user = new User();
-        user.setId(1L);
+        user.setId(null);
         user.setFirstName("Lucas");
         user.setLastName("Duarte");
         user.setEmail("lucas@gmail.com");
@@ -45,9 +46,27 @@ public class Factory {
         return user;
     }
 
-    public static Account createAccount(){
+    public static Portfolio createPortfolio() {
+        Portfolio portfolio = new Portfolio();
+        portfolio.setId(1L);
+        portfolio.setDescription("");
+        portfolio.setTotalValue(0.0);
+        portfolio.setAccount(createAccountWithId());
+        return portfolio;
+    }
+
+
+    public static Account createAccountWithId(){
         Account account = new Account();
         account.setId(1L);
+        account.setBalance(1000.0);
+        account.setUser(createUser());
+        return account;
+    }
+
+    public static Account createAccount(){
+        Account account = new Account();
+        account.setId(null);
         account.setBalance(1000.0);
         account.setUser(createUser());
         return account;
