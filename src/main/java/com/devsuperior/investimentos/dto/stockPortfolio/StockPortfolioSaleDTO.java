@@ -23,4 +23,8 @@ public class StockPortfolioSaleDTO {
     public String getPassword() {
         return password;
     }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
 }

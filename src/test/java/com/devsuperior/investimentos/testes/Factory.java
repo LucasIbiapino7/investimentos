@@ -4,10 +4,14 @@ import com.devsuperior.investimentos.client.dto.BrapiResponseFindByIdDTO;
 import com.devsuperior.investimentos.client.dto.BrapiResponseListDTO;
 import com.devsuperior.investimentos.client.dto.StockBrapiDTO;
 import com.devsuperior.investimentos.client.dto.StockBrapiFindByIdDTO;
+import com.devsuperior.investimentos.dto.UserDTO;
+import com.devsuperior.investimentos.dto.UserDeleteDTO;
+import com.devsuperior.investimentos.dto.UserInsertDTO;
 import com.devsuperior.investimentos.dto.account.AccountDTO;
 import com.devsuperior.investimentos.dto.account.DepositDTO;
 import com.devsuperior.investimentos.dto.account.WithdrawDTO;
 import com.devsuperior.investimentos.dto.portfolio.PortfolioDTO;
+import com.devsuperior.investimentos.dto.stockPortfolio.StockPortfolioSaleDTO;
 import com.devsuperior.investimentos.dto.stockPortfolio.StockPurchaseDTO;
 import com.devsuperior.investimentos.entities.*;
 
@@ -54,6 +58,7 @@ public class Factory {
         portfolio.setId(1L);
         portfolio.setDescription("");
         portfolio.setTotalValue(0.0);
+        portfolio.getPortfolioStocks().add(createPortfolioStock());
         portfolio.setAccount(createAccountWithId());
         return portfolio;
     }
@@ -123,7 +128,36 @@ public class Factory {
     }
 
     public static PortfolioStock createPortfolioStock(){
-        return new PortfolioStock(createPortfolio(), createStock(), 10, 50.0, 500.0);
+        Portfolio portfolio = new Portfolio(1L, "teste", 0.0, createAccount());
+        return new PortfolioStock(portfolio, createStock(), 10, 50.0, 500.0);
+    }
+
+    public static PortfolioStockImpl createPortfolioStockProjection(){
+        return new PortfolioStockImpl(10.0, 5, 50.0, "AMZO34");
+    }
+
+    public static StockPortfolioSaleDTO createStockPortfolioSaleDTO() {
+        return new StockPortfolioSaleDTO(5, "123456");
+    }
+
+    public static UserDetailsImpl createUserDetailsProjection(){
+        return new UserDetailsImpl("maria@gmail.com", "123456", 1L, "ROLE_CLIENT");
+    }
+
+    public static Role createRole(){
+        return new Role(1L, "ROLE_CLIENT");
+    }
+
+    public static UserInsertDTO createUserInsertDTO(){
+        return new UserInsertDTO(1L, "Lucas", "Duarte", "2002-02-02", "teste@gmail.com", "123456");
+    }
+
+    public static UserDTO createUserDTO(){
+        return new UserDTO(createUser());
+    }
+
+    public static UserDeleteDTO createUserDeleteDTO(){
+        return new UserDeleteDTO("123456");
     }
 
 }

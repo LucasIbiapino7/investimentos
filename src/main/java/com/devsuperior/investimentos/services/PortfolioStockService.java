@@ -61,7 +61,7 @@ public class PortfolioStockService {
 
         // Verifica se a quantidade é válida
         PortfolioStock portfolioStock = response.get();
-        if (portfolioStock.getQuantity() > dto.getQuantity()){
+        if (portfolioStock.getQuantity() < dto.getQuantity()){
             throw new AccountException("Quantidade inválida");
         }
 

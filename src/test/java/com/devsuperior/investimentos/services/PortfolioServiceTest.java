@@ -1,5 +1,6 @@
 package com.devsuperior.investimentos.services;
 
+import com.devsuperior.investimentos.client.dto.StockBrapiFindByIdDTO;
 import com.devsuperior.investimentos.dto.portfolio.PortfolioDTO;
 import com.devsuperior.investimentos.dto.portfolio.StockComparisonDTO;
 import com.devsuperior.investimentos.dto.portfolio.StockPurchasedDTO;
@@ -58,6 +59,7 @@ class PortfolioServiceTest {
     private StockPurchaseDTO stockPurchaseDTO;
     private Stock stock;
     private PortfolioStock portfolioStock;
+    private StockBrapiFindByIdDTO stockBrapiFindByIdDTO;
 
     @BeforeEach
     void setUp() {
@@ -70,6 +72,7 @@ class PortfolioServiceTest {
         stockPurchaseDTO = Factory.createStockPurchaseDTO();
         stock = Factory.createStock();
         portfolioStock = Factory.createPortfolioStock();
+        stockBrapiFindByIdDTO = Factory.createStockBrapiFindByIdDTO();
 
         Mockito.when(repository.save(ArgumentMatchers.any())).thenReturn(portfolio);
 
@@ -77,6 +80,7 @@ class PortfolioServiceTest {
         Mockito.when(repository.findById(idNonExists)).thenReturn(Optional.empty());
 
         Mockito.when(stockService.getStock(ArgumentMatchers.any(), ArgumentMatchers.any())).thenReturn(stock);
+        Mockito.when(stockService.findById(ArgumentMatchers.any())).thenReturn(stockBrapiFindByIdDTO);
 
         Mockito.when(portfolioStockRepository.saveAndFlush(ArgumentMatchers.any())).thenReturn(portfolioStock);
 
@@ -246,7 +250,7 @@ class PortfolioServiceTest {
         List<StockComparisonDTO> response = service.comparison(idExists);
 
         Assertions.assertNotNull(response);
-        Assertions.assertTrue(response.isEmpty());
+        Assertions.assertFalse(response.isEmpty());
 
     }
 

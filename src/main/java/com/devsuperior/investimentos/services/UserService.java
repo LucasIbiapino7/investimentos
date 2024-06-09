@@ -9,10 +9,13 @@ import com.devsuperior.investimentos.entities.User;
 import com.devsuperior.investimentos.projection.UserDetailsProjection;
 import com.devsuperior.investimentos.repositories.RoleRepository;
 import com.devsuperior.investimentos.repositories.UserRepository;
+import com.devsuperior.investimentos.services.exceptions.DatabaseException;
 import com.devsuperior.investimentos.services.exceptions.DateException;
 import com.devsuperior.investimentos.services.exceptions.PasswordException;
 import com.devsuperior.investimentos.services.exceptions.ResourceNotFoundException;
+import com.devsuperior.investimentos.util.CustomUserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -38,6 +41,9 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private CustomUserUtil customUserUtil;
 
     @Override
     @Transactional(readOnly = true)
@@ -80,19 +86,20 @@ public class UserService implements UserDetailsService {
         if (!authPassword(dto.getPassword(), user)){
             throw new PasswordException("Senha Incorreta");
         };
-        repository.delete(user);
+        try {
+            repository.delete(user);
+        }catch (DataIntegrityViolationException e){
+            throw new DatabaseException("Falha de integridade referencial");
+        }
     }
 
     protected User authenticated(){
         try {
-            //Captura o nome o Username do usuário no contexto da Jwt
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            Jwt jwtPrincipal = (Jwt) authentication.getPrincipal();
-            String username = jwtPrincipal.getClaim("username");
+            String username = customUserUtil.getLoggedUsername();
             return repository.findByEmail(username).get();
         }
-        catch (Exception e){
-            throw new UsernameNotFoundException("User not found");
+        catch (Exception e) {
+            throw new UsernameNotFoundException("Invalid user");
         }
     }
 
