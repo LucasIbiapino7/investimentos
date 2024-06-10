@@ -83,6 +83,14 @@ public class Factory {
         return new AccountDTO(createAccount());
     }
 
+    //Usado nos testes de integração
+    public static AccountDTO createAccountDTOForIT(){
+        AccountDTO accountDTO = new AccountDTO();
+        accountDTO.setName("Minha Conta");
+        accountDTO.setDescription("A conta do lucas");
+        return accountDTO;
+    }
+
     public static AccountDTO createAccountDTOWithNameNull(){
         AccountDTO accountDTO =  new AccountDTO(createAccount());
         accountDTO.setName(null);

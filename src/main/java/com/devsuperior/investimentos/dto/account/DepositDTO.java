@@ -29,4 +29,12 @@ public class DepositDTO {
     public String getPassword() {
         return password;
     }
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }
