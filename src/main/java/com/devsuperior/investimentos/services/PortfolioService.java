@@ -9,6 +9,7 @@ import com.devsuperior.investimentos.entities.*;
 import com.devsuperior.investimentos.repositories.PortfolioRepository;
 import com.devsuperior.investimentos.repositories.PortfolioStockRepository;
 import com.devsuperior.investimentos.services.exceptions.AccountException;
+import com.devsuperior.investimentos.services.exceptions.ForbiddenException;
 import com.devsuperior.investimentos.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,7 +59,7 @@ public class PortfolioService {
     public PortfolioDTO findById(Long id) {
         Portfolio portfolio = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Portifolio não encontrado"));
         if (!authService.AuthPortfolioIsSelf(portfolio)){
-            throw new ResourceNotFoundException("acesso negado");
+            throw new ForbiddenException("acesso negado");
         }
         return new PortfolioDTO(portfolio);
     }
@@ -97,7 +98,7 @@ public class PortfolioService {
 
     @Transactional(readOnly = true)
     public List<StockComparisonDTO> comparison(Long id) {
-        Portfolio portfolio = repository.getReferenceById(id);
+        Portfolio portfolio = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Id Não existe"));
 
         //(lembrar de ver quantas consultas isso vai fazer)
         Set<PortfolioStock> result = portfolio.getPortfolioStocks();// Recupera os stocks de um portfólio

@@ -168,4 +168,9 @@ public class Factory {
         return new UserDeleteDTO("123456");
     }
 
+    public static PortfolioDTO createPortfolioDTOforIT() {
+        PortfolioDTO portfolioDTO = new PortfolioDTO();
+        portfolioDTO.setDescription("Conta Para Manter ativos");
+        return portfolioDTO;
+    }
 }
