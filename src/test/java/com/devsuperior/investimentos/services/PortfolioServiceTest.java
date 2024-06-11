@@ -12,6 +12,7 @@ import com.devsuperior.investimentos.entities.Stock;
 import com.devsuperior.investimentos.repositories.PortfolioRepository;
 import com.devsuperior.investimentos.repositories.PortfolioStockRepository;
 import com.devsuperior.investimentos.services.exceptions.AccountException;
+import com.devsuperior.investimentos.services.exceptions.ForbiddenException;
 import com.devsuperior.investimentos.services.exceptions.ResourceNotFoundException;
 import com.devsuperior.investimentos.testes.Factory;
 import org.junit.jupiter.api.Assertions;
@@ -187,7 +188,7 @@ class PortfolioServiceTest {
 
         Mockito.when(authService.AuthPortfolioIsSelf(portfolio)).thenReturn(false);
 
-        Assertions.assertThrows(ResourceNotFoundException.class, () -> {
+        Assertions.assertThrows(ForbiddenException.class, () -> {
             PortfolioDTO response = service.findById(idExists);
         });
 

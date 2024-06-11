@@ -157,7 +157,7 @@ public class Factory {
     }
 
     public static UserInsertDTO createUserInsertDTO(){
-        return new UserInsertDTO(1L, "Lucas", "Duarte", "2002-02-02", "teste@gmail.com", "123456");
+        return new UserInsertDTO(null, "Lucas", "Duarte", "2002-02-02", "teste@gmail.com", "123456");
     }
 
     public static UserDTO createUserDTO(){
